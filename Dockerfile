@@ -1,13 +1,13 @@
 FROM continuumio/miniconda3:4.7.12
 ARG fname=AmberTools19.tar.bz2
 SHELL ["/bin/bash", "-c"]
-ENV AMBERHOME=/source/amber18
+ENV AMBERHOME=/rism/amber18
+ENV LOG_LEVEL=info
 
+WORKDIR /rism
 
-WORKDIR /source
-
-#RUN wget "http://ambermd.org/cgi-bin/AmberTools19-get.pl?Name=bot&Institution=NA&City=NA&State=NA&Country=NA&OS=linux64" -O $fname
-COPY ./$fname $fname
+RUN wget "http://ambermd.org/cgi-bin/AmberTools19-get.pl?Name=bot&Institution=NA&City=NA&State=NA&Country=NA&OS=linux64" -O $fname
+#COPY ../$fname $fname
 
 RUN tar -xvf $fname && \
   apt-get update --fix-missing && \
@@ -17,11 +17,20 @@ RUN tar -xvf $fname && \
   source $AMBERHOME/amber.sh && make install
 
 
-WORKDIR /opt
+WORKDIR /python-rism
+COPY ./ ./
 
-RUN conda install --yes numpy tini && \
-  git clone https://github.com/MTS-Strathclyde/PC_plus pcplus
+RUN chmod +x run-guincorn.sh
+RUN conda env create -f environment.yml
 
+# Make RUN commands use the new environment:
+RUN echo "source activate syntelly-calc" >> ~/.bashrc
+ENV PATH /opt/conda/envs/syntelly-calc/bin:$PATH
 
-ENTRYPOINT ["tini", "-g", "--"]
+SHELL ["conda", "run", "-n", "syntelly-calc", "/bin/bash", "-c"]
 
+RUN pip install gunicorn[gevent]
+
+EXPOSE 3002
+
+ENTRYPOINT ["./run-guincorn.sh"]
