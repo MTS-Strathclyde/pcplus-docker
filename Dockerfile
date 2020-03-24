@@ -33,4 +33,4 @@ RUN pip install gunicorn[gevent]
 
 EXPOSE 3002
 
-ENTRYPOINT ["./run-guincorn.sh"]
+ENTRYPOINT ["./run-gunicorn.sh"]
