@@ -27,7 +27,7 @@ RUN conda env create -f environment.yml
 # Make RUN commands use the new environment:
 RUN echo "source activate syntelly-calc" >> ~/.bashrc
 
-ENV PATH /opt/conda/envs/syntelly-calc/bin:$PATH
+ENV PATH /opt/conda/envs/syntelly-calc/bin:/rism/amber18/bin:$PATH
 
 SHELL ["conda", "run", "-n", "syntelly-calc", "/bin/bash", "-c"]
 
