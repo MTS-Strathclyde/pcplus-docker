@@ -20,7 +20,7 @@ RUN tar -xvf $fname && \
 WORKDIR /python-rism
 COPY ./ ./
 
-RUN chmod +x run-guincorn.sh
+RUN chmod +x run-gunicorn.sh
 RUN conda env create -f environment.yml
 
 # Make RUN commands use the new environment:
