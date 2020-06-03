@@ -1,1 +1,7 @@
-docker run pcplus /bin/bash -c "source /source/amber18/amber.sh; pcplus/rism3d_pc.py pcplus/methane.pdb"
+```
+git clone git@github.com:MTS-Strathclyde/pcplus-docker.git
+cd pcplus-docker
+docker build . -t rism-worker
+docker run rism-worker -p 3002:3002
+
+```
