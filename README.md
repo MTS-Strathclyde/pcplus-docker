@@ -1,5 +1,8 @@
 # Dockerized version of PC+ RISM model
 
+Runs 3D-RISM calculations using [Ambertools 19](https://ambermd.org/AmberTools.php) software package and compute solvation free energy using PC+ correction (more details: https://github.com/MTS-Strathclyde/PC_plus).
+
+
 ## Setting up
 
 ```
